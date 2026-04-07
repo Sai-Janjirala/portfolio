@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { SOCIALS } from '../data';
 import { Send, Mail, MapPin, Loader2 } from 'lucide-react';
-
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+    const formRef = useRef();
     const [result, setResult] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const onSubmit = async (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
         setIsSubmitting(true);
         setResult("Sending...");
-        
-        const formData = new FormData(event.target);
-        formData.append("access_key", import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE");
 
-        try {
-            const response = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                body: formData
+        emailjs
+            .sendForm(
+                import.meta.env.VITE_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
+                formRef.current,
+                {
+                    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY",
+                }
+            )
+            .then(
+                () => {
+                    setResult("Message sent successfully!");
+                    event.target.reset();
+                },
+                (error) => {
+                    console.error('FAILED...', error.text);
+                    setResult("Failed to send message. Please try again.");
+                }
+            )
+            .finally(() => {
+                setIsSubmitting(false);
+                setTimeout(() => setResult(""), 5000);
             });
-
-            const data = await response.json();
-
-            if (data.success) {
-                setResult("Message sent successfully!");
-                event.target.reset();
-            } else {
-                setResult(data.message || "Something went wrong.");
-            }
-        } catch (error) {
-            setResult("Failed to send message. Please try again.");
-        } finally {
-            setIsSubmitting(false);
-            setTimeout(() => setResult(""), 5000);
-        }
     };
     return (
         <section id="contact" className="py-20 bg-gradient-to-b from-transparent to-black/80 relative">
@@ -91,6 +92,7 @@ const Contact = () => {
 
                     {/* Form */}
                     <motion.form
+                        ref={formRef}
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
