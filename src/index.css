@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@theme {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6;
+    }
+
+    to {
+      box-shadow: 0 0 20px #6366f1, 0 0 30px #6366f1;
+    }
+  }
+}
+
+/* Light Mode (Default) */
+:root {
+  /* Light Theme Palette - Premium Clean */
+  --background: #f8fafc;
+  /* Slate 50 */
+  --surface: #ffffff;
+  /* White */
+  --primary: #6366f1;
+  /* Indigo 500 */
+  --secondary: #8b5cf6;
+  /* Violet 500 */
+  --accent: #06b6d4;
+  /* Cyan 500 */
+  --text-main: #0f172a;
+  /* Slate 900 */
+  --text-muted: #64748b;
+  /* Slate 500 */
+}
+
+/* Dark Mode Overrides */
+.dark {
+  /* Dark Theme Palette - Premium Cyberpunk */
+  --background: #0a0a0a;
+  --surface: #121212;
+  --primary: #8b5cf6;
+  --secondary: #6366f1;
+  --accent: #06b6d4;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+}
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  /* Allow system preference */
+  color: var(--color-text-main);
+  background-color: var(--color-background);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--color-background);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Optional: Add radial gradient only for dark mode */
+.dark body {
+  background: radial-gradient(circle at 50% 10%, #1a1a2e 0%, #0a0a0a 100%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+:root:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  /* Lighter scrollbar for light mode */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Utility to hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-primary);
+  text-decoration: inherit;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-secondary);
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text-main);
+  font-weight: 700;
+}
+
+button {
+  cursor: pointer;
+}
