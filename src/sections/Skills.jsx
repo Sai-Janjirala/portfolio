@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { motion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useMotionTemplate, useMotionValue, useSpring, useScroll, useTransform } from 'framer-motion';
 import { SKILL_CATEGORIES } from '../data';
 
 const colorMap = {
@@ -65,12 +65,13 @@ const SkillCard = ({ skill, index, color }) => {
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.04 }}
+            whileHover={{ scale: 1.04, y: -2 }}
             onMouseMove={handleMouseMove}
-            className="group relative bg-surface/60 border border-border/50 px-4 py-3 rounded-xl overflow-hidden hover:border-primary/30 hover:scale-[1.02] transition-all duration-300 cursor-default"
+            className="group relative bg-surface/60 border border-border/50 px-4 py-3 rounded-xl overflow-hidden hover:border-primary/30 transition-all duration-300 cursor-default"
         >
             {/* Spotlight */}
             <motion.div
@@ -114,18 +115,37 @@ const CategorySection = ({ category, index }) => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: index * 0.12 }}
         >
             <div className="flex items-center gap-3 mb-4">
-                <div className={`w-2 h-2 rounded-full ${colors.dot}`} />
+                <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.12 + 0.2, type: "spring", stiffness: 400 }}
+                    className={`w-2 h-2 rounded-full ${colors.dot}`}
+                />
                 <h3 className="text-lg font-heading font-bold text-text-main">{category.category}</h3>
-                <div className="h-px flex-1 bg-border/50" />
-                <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${colors.badge}`}>
+                <motion.div
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.12 + 0.3, duration: 0.6 }}
+                    style={{ transformOrigin: "left" }}
+                    className="h-px flex-1 bg-border/50"
+                />
+                <motion.span
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.12 + 0.4, duration: 0.4 }}
+                    className={`text-xs font-medium px-2.5 py-1 rounded-full border ${colors.badge}`}
+                >
                     {category.skills.length} skills
-                </span>
+                </motion.span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
@@ -144,11 +164,23 @@ const CategorySection = ({ category, index }) => {
 
 const Skills = () => {
     const totalSkills = SKILL_CATEGORIES.reduce((acc, cat) => acc + cat.skills.length, 0);
+    const sectionRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"],
+    });
+    const bgY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
     return (
-        <section id="skills" className="py-24 md:py-32 relative overflow-hidden">
-            <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+        <section id="skills" className="py-24 md:py-32 relative overflow-hidden" ref={sectionRef}>
+            <motion.div
+                style={{ y: bgY }}
+                className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none"
+            />
+            <motion.div
+                style={{ y: bgY }}
+                className="absolute bottom-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-[100px] pointer-events-none"
+            />
 
             <div className="container mx-auto px-6 md:px-12 lg:px-20 xl:px-28 relative z-10">
                 <motion.div
@@ -158,21 +190,52 @@ const Skills = () => {
                     transition={{ duration: 0.7 }}
                     className="text-center mb-16"
                 >
-                    <p className="text-primary text-sm tracking-[0.3em] uppercase font-heading mb-3">What I Know</p>
+                    <motion.p
+                        initial={{ opacity: 0, letterSpacing: "0.1em" }}
+                        whileInView={{ opacity: 1, letterSpacing: "0.3em" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-primary text-sm uppercase font-heading mb-3"
+                    >
+                        What I Know
+                    </motion.p>
                     <h2 className="text-4xl md:text-5xl font-display font-bold text-text-main mb-4">
                         Skill <span className="text-primary">Sets</span>
                     </h2>
-                    <p className="text-text-muted max-w-2xl mx-auto text-lg mb-6">
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2, duration: 0.8 }}
+                        className="w-16 h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6"
+                    />
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                        className="text-text-muted max-w-2xl mx-auto text-lg mb-6"
+                    >
                         The tools and technologies I use to build seamless digital products.
-                    </p>
+                    </motion.p>
 
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface border border-border/50 rounded-full">
-                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse-slow" />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4, duration: 0.5, type: "spring" }}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-surface border border-border/50 rounded-full"
+                    >
+                        <motion.div
+                            animate={{ scale: [1, 1.3, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            className="w-2 h-2 rounded-full bg-primary"
+                        />
                         <span className="text-sm text-text-muted font-heading">
                             <span className="font-bold text-text-main">{totalSkills}</span> technologies across{' '}
                             <span className="font-bold text-text-main">{SKILL_CATEGORIES.length}</span> categories
                         </span>
-                    </div>
+                    </motion.div>
                 </motion.div>
 
                 <div className="space-y-10">

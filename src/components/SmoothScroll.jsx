@@ -17,14 +17,14 @@ const SmoothScroll = ({ children }) => {
 
         lenisRef.current = lenis;
 
+        // Make lenis accessible globally FIRST, before RAF starts
+        window.__lenis = lenis;
+
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
-
-        // Make lenis accessible for scroll-to functionality
-        window.__lenis = lenis;
 
         return () => {
             lenis.destroy();

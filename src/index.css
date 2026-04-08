@@ -165,3 +165,40 @@ button {
   background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
   border: none;
 }
+
+/* Smooth image reveal */
+.image-reveal {
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  animation: imageReveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes imageReveal {
+  to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* Text gradient highlight */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Focus ring glow for inputs */
+input:focus, textarea:focus {
+  box-shadow: 0 0 0 2px rgba(232, 168, 56, 0.1);
+}
+
+/* Stagger children animation helper */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: staggerIn 0.5s ease forwards;
+}
+
+@keyframes staggerIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

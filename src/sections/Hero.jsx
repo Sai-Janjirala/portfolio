@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Download } from "lucide-react";
 import { SOCIALS } from "../data";
 
@@ -8,6 +8,11 @@ const Hero = () => {
     const [roleIndex, setRoleIndex] = useState(0);
     const [displayText, setDisplayText] = useState("");
     const [isTyping, setIsTyping] = useState(true);
+
+    const { scrollY } = useScroll();
+    const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
+    const heroScale = useTransform(scrollY, [0, 600], [1, 0.95]);
+    const heroY = useTransform(scrollY, [0, 600], [0, 100]);
 
     useEffect(() => {
         const currentRole = roles[roleIndex];
@@ -63,14 +68,63 @@ const Hero = () => {
         }
     };
 
+    // Floating particles
+    const particles = Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 3 + 1,
+        duration: Math.random() * 10 + 8,
+        delay: Math.random() * 5,
+    }));
+
     return (
         <section
             id="home"
             className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
         >
             {/* Background ambient glows */}
-            <div className="absolute top-[-20%] right-[-15%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-            <div className="absolute bottom-[-20%] left-[-15%] w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
+            <motion.div
+                animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.05, 0.08, 0.05],
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-[-20%] right-[-15%] w-[600px] h-[600px] bg-primary rounded-full blur-[150px] pointer-events-none"
+            />
+            <motion.div
+                animate={{
+                    scale: [1, 1.15, 1],
+                    opacity: [0.05, 0.07, 0.05],
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute bottom-[-20%] left-[-15%] w-[500px] h-[500px] bg-accent rounded-full blur-[150px] pointer-events-none"
+            />
+
+            {/* Floating particles */}
+            {particles.map((p) => (
+                <motion.div
+                    key={p.id}
+                    className="absolute rounded-full bg-primary/20 pointer-events-none"
+                    style={{
+                        left: `${p.x}%`,
+                        top: `${p.y}%`,
+                        width: p.size,
+                        height: p.size,
+                    }}
+                    animate={{
+                        y: [0, -30, 0],
+                        x: [0, Math.random() * 20 - 10, 0],
+                        opacity: [0, 0.6, 0],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        delay: p.delay,
+                        ease: "easeInOut",
+                    }}
+                />
+            ))}
 
             {/* Subtle grid pattern */}
             <div
@@ -81,12 +135,15 @@ const Hero = () => {
                 }}
             />
 
-            <div className="relative z-10 flex flex-col items-center text-center px-6">
+            <motion.div
+                style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
+                className="relative z-10 flex flex-col items-center text-center px-6"
+            >
                 {/* Greeting */}
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
+                    initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{ delay: 0.3, duration: 0.8 }}
                     className="text-text-muted text-sm md:text-base tracking-[0.3em] uppercase font-heading mb-6"
                 >
                     Hello, I'm
@@ -136,16 +193,16 @@ const Hero = () => {
 
                 {/* Decorative line */}
                 <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
                     transition={{ delay: 1.8, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="w-24 h-px bg-gradient-to-r from-transparent via-primary to-transparent mb-8"
                 />
 
                 {/* Typewriter role */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 2, duration: 0.6 }}
                     className="text-lg md:text-xl font-heading text-text-muted mb-10 h-8 flex items-center"
                 >
@@ -163,9 +220,9 @@ const Hero = () => {
 
                 {/* Description */}
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 2.2, duration: 0.6 }}
+                    initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{ delay: 2.2, duration: 0.8 }}
                     className="text-text-muted text-base md:text-lg max-w-lg mb-10 leading-relaxed font-light"
                 >
                     Turning ideas into real-life products. I build accessible, pixel-perfect, and performant web experiences.
@@ -178,21 +235,25 @@ const Hero = () => {
                     transition={{ delay: 2.4, duration: 0.6 }}
                     className="flex flex-wrap gap-4 justify-center mb-12"
                 >
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(232,168,56,0.3)" }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => {
                             const link = document.createElement('a');
                             link.href = "/resume.png";
                             link.download = "Sai_Janjirala_Resume.png";
                             link.click();
                         }}
-                        className="group relative px-8 py-3 bg-primary text-background font-semibold rounded-full overflow-hidden flex items-center gap-2 hover:shadow-[0_0_30px_rgba(232,168,56,0.3)] transition-all duration-300"
+                        className="group relative px-8 py-3 bg-primary text-background font-semibold rounded-full overflow-hidden flex items-center gap-2 transition-all duration-300"
                     >
                         <span className="relative z-10 font-heading text-sm tracking-wide">Resume</span>
                         <Download size={16} className="relative z-10 group-hover:translate-y-0.5 transition-transform" />
                         <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity" />
-                    </button>
+                    </motion.button>
 
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(232,168,56,0.1)" }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => {
                             const el = document.getElementById('contact');
                             if (el) {
@@ -200,10 +261,10 @@ const Hero = () => {
                                 else el.scrollIntoView({ behavior: 'smooth' });
                             }
                         }}
-                        className="px-8 py-3 border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,168,56,0.1)]"
+                        className="px-8 py-3 border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide transition-all duration-300"
                     >
                         Contact Me
-                    </button>
+                    </motion.button>
                 </motion.div>
 
                 {/* Social Links */}
@@ -219,14 +280,16 @@ const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 2.6 + i * 0.1, duration: 0.4 }}
+                            whileHover={{ scale: 1.2, y: -3, color: "#e8a838" }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={() => window.open(social.url, '_blank', 'noopener,noreferrer')}
-                            className="text-text-muted hover:text-primary transition-all duration-300 hover:scale-110 hover:-translate-y-1 outline-none"
+                            className="text-text-muted transition-all duration-300 outline-none"
                         >
                             <social.icon size={20} />
                         </motion.button>
                     ))}
                 </motion.div>
-            </div>
+            </motion.div>
 
             {/* Scroll Indicator */}
             <motion.div
@@ -236,13 +299,26 @@ const Hero = () => {
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
                 onClick={scrollToAbout}
             >
-                <span className="text-text-muted text-xs tracking-[0.2em] uppercase font-heading">Scroll</span>
+                <motion.span
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-text-muted text-xs tracking-[0.2em] uppercase font-heading"
+                >
+                    Scroll
+                </motion.span>
                 <motion.div
                     animate={{ y: [0, 8, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 >
                     <ArrowDown size={16} className="text-primary" />
                 </motion.div>
+                {/* Scroll line */}
+                <motion.div
+                    className="w-px h-8 bg-gradient-to-b from-primary/50 to-transparent"
+                    animate={{ scaleY: [0, 1, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ transformOrigin: "top" }}
+                />
             </motion.div>
         </section>
     );
