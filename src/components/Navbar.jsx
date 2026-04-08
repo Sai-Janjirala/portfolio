@@ -136,26 +136,31 @@ const Navbar = () => {
             transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="fixed top-0 left-0 w-full z-50"
         >
-            <div className="container mx-auto px-6 py-4 flex justify-center">
+            <div className="container mx-auto px-6 py-4 flex md:justify-center">
                 {/* Floating pill navbar */}
                 <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-                    className={`flex items-center gap-1 px-2 py-2 rounded-full transition-all duration-500 ${
+                    className={`flex items-center justify-between md:justify-start w-full md:w-auto gap-1 px-2 py-2 rounded-full transition-all duration-500 ${
                         scrolled 
                             ? 'bg-surface/80 backdrop-blur-xl border border-border/50 shadow-lg shadow-black/20' 
                             : 'bg-transparent'
                     }`}
                 >
-                    {/* Logo - SJ */}
+                    {/* Logo */}
                     <motion.button
                         onClick={() => scrollToSection('home')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-4 py-1.5 text-primary font-display font-bold text-lg tracking-tight mr-2 outline-none"
+                        className="px-2 py-1 text-primary outline-none flex items-center justify-center mr-2 lg:mr-4"
+                        aria-label="Home"
                     >
-                        SJ
+                        <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+                            <path d="M50 5L90 28V72L50 95L10 72V28L50 5Z" stroke="currentColor" strokeWidth="6" strokeLinejoin="round"/>
+                            <path d="M50 15L81 33V67L50 85L19 67V33L50 15Z" fill="currentColor" fillOpacity="0.15" />
+                            <text x="50" y="66" textAnchor="middle" fontSize="42" fontWeight="800" fontFamily="Syne, sans-serif" fill="currentColor" letterSpacing="-2">SJ</text>
+                        </svg>
                     </motion.button>
 
                     {/* Desktop Links */}
