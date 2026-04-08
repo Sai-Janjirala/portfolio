@@ -36,7 +36,11 @@ const CustomCursor = () => {
         };
 
         attachListeners();
-        const observer = new MutationObserver(attachListeners);
+        let timeoutId;
+        const observer = new MutationObserver(() => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(attachListeners, 100);
+        });
         observer.observe(document.body, { childList: true, subtree: true });
 
         return () => {
@@ -60,6 +64,7 @@ const CustomCursor = () => {
                     translateY: "-50%",
                     width: isHovered ? 8 : 4,
                     height: isHovered ? 8 : 4,
+                    willChange: "transform, width, height"
                 }}
                 transition={{ width: { duration: 0.2 }, height: { duration: 0.2 } }}
             />
@@ -75,6 +80,7 @@ const CustomCursor = () => {
                     width: isHovered ? 48 : 28,
                     height: isHovered ? 48 : 28,
                     borderColor: isHovered ? 'rgba(232, 168, 56, 0.6)' : 'rgba(232, 168, 56, 0.3)',
+                    willChange: "transform, width, height, border-color"
                 }}
                 transition={{ width: { duration: 0.3 }, height: { duration: 0.3 } }}
             />

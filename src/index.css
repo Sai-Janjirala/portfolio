@@ -93,6 +93,8 @@ body {
   pointer-events: none;
   z-index: 9998;
   opacity: 0.5;
+  contain: strict;
+  will-change: transform;
 }
 
 /* Custom Scrollbar */
@@ -143,6 +145,11 @@ h1, h2, h3, h4, h5, h6 {
 button {
   cursor: pointer;
 }
+
+/* Utilities for perf and scroll lock */
+.touch-none { touch-action: none; }
+.will-change-transform { will-change: transform; }
+.will-change-opacity { will-change: opacity; }
 
 /* Magnetic button class */
 .magnetic-btn {

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Download } from "lucide-react";
+import { ArrowDown, Download, Code2, Cpu, Database } from "lucide-react";
 import { SOCIALS } from "../data";
 
 const Hero = () => {
@@ -69,14 +69,14 @@ const Hero = () => {
     };
 
     // Floating particles
-    const particles = Array.from({ length: 20 }, (_, i) => ({
+    const particles = useMemo(() => Array.from({ length: 30 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 3 + 1,
-        duration: Math.random() * 10 + 8,
+        size: Math.random() * 4 + 1,
+        duration: Math.random() * 10 + 10,
         delay: Math.random() * 5,
-    }));
+    })), []);
 
     return (
         <section
@@ -105,7 +105,7 @@ const Hero = () => {
             {particles.map((p) => (
                 <motion.div
                     key={p.id}
-                    className="absolute rounded-full bg-primary/20 pointer-events-none"
+                    className="absolute rounded-full bg-primary/20 pointer-events-none will-change-transform will-change-opacity"
                     style={{
                         left: `${p.x}%`,
                         top: `${p.y}%`,
@@ -113,8 +113,8 @@ const Hero = () => {
                         height: p.size,
                     }}
                     animate={{
-                        y: [0, -30, 0],
-                        x: [0, Math.random() * 20 - 10, 0],
+                        y: [0, -40, 0],
+                        x: [0, Math.random() * 30 - 15, 0],
                         opacity: [0, 0.6, 0],
                     }}
                     transition={{
@@ -135,6 +135,78 @@ const Hero = () => {
                 }}
             />
 
+            {/* Decorative SVGs around the edges */}
+            <motion.div 
+                animate={{ y: [-20, 20, -20], rotate: [0, 10, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-1/4 left-[10%] text-primary/10 pointer-events-none hidden md:block"
+            >
+                <Code2 size={120} />
+            </motion.div>
+            
+            <motion.div 
+                animate={{ y: [20, -20, 20], rotate: [0, -10, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-1/4 right-[10%] text-accent/10 pointer-events-none hidden md:block"
+            >
+                <Cpu size={100} />
+            </motion.div>
+
+            <motion.div 
+                animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-1/3 right-[15%] text-primary/15 pointer-events-none hidden lg:block"
+            >
+                <Database size={60} />
+            </motion.div>
+
+            {/* Animated dashed lines on sides */}
+            <div className="absolute top-0 bottom-0 left-8 w-px bg-[linear-gradient(to_bottom,transparent,rgba(232,168,56,0.2)_50%,transparent)] hidden md:block"></div>
+            <div className="absolute top-0 bottom-0 right-8 w-px bg-[linear-gradient(to_bottom,transparent,rgba(212,160,86,0.2)_50%,transparent)] hidden md:block"></div>
+
+            {/* Code Snippet Background Element */}
+            <div className="absolute left-[5%] top-[15%] opacity-[0.04] text-xs font-mono whitespace-pre pointer-events-none hidden xl:block leading-relaxed">
+{`function buildAwesome() {
+  const stack = ['React', 'Node'];
+  return stack.map(tech => 
+    createMagic(tech)
+  );
+}
+
+const UI = {
+  dynamic: true,
+  beautiful: true,
+  performant: true
+};`}
+            </div>
+
+            <div className="absolute right-[5%] bottom-[15%] opacity-[0.04] text-xs font-mono whitespace-pre pointer-events-none hidden xl:block text-right leading-relaxed">
+{`async function fetchFuture() {
+  try {
+    const ideas = await brainstorm();
+    execute(ideas, { 
+      flawless: true 
+    });
+  } catch(e) {
+    debug(e);
+  }
+}`}
+            </div>
+
+            {/* Orbital rings behind name */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none hidden sm:block">
+                <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                    className="w-[600px] h-[600px] rounded-full border border-primary/[0.03]"
+                />
+                <motion.div 
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+                    className="w-[800px] h-[800px] rounded-full border border-primary/[0.02] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                />
+            </div>
+
             <motion.div
                 style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
                 className="relative z-10 flex flex-col items-center text-center px-6"
@@ -146,7 +218,7 @@ const Hero = () => {
                     transition={{ delay: 0.3, duration: 0.8 }}
                     className="text-text-muted text-sm md:text-base tracking-[0.3em] uppercase font-heading mb-6"
                 >
-                    Hello, I'm
+
                 </motion.p>
 
                 {/* Name - First */}

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Github, Linkedin, Twitter, Youtube } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -9,6 +9,13 @@ const navLinks = [
     { name: "Projects", id: "projects" },
     { name: "Certifications", id: "certifications" },
     { name: "Contact", id: "contact" },
+];
+
+const SOCIALS_NAV = [
+    { name: "GitHub", url: "https://github.com/Sai-Janjirala", icon: Github },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/sai-janjirala-5704a6394/", icon: Linkedin },
+    { name: "Twitter", url: "https://twitter.com", icon: Twitter },
+    { name: "Youtube", url: "https://www.youtube.com/@Saii-Janjirala", icon: Youtube },
 ];
 
 const Navbar = () => {
@@ -105,7 +112,22 @@ const Navbar = () => {
             }
         }
         setIsOpen(false);
+        document.body.style.overflow = '';
     };
+
+    // Toggle scroll lock when menu opens/closes
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            if (window.__lenis) window.__lenis.stop();
+        } else {
+            document.body.style.overflow = '';
+            if (window.__lenis) window.__lenis.start();
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
 
     return (
         <motion.nav
@@ -166,10 +188,9 @@ const Navbar = () => {
                         ))}
                     </div>
 
-                    {/* Mobile menu button */}
                     <motion.button
                         whileTap={{ scale: 0.9 }}
-                        className="md:hidden text-text-main p-2 outline-none"
+                        className="md:hidden text-text-main p-2 outline-none relative z-[60]"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         <AnimatePresence mode="wait">
@@ -199,32 +220,70 @@ const Navbar = () => {
                 </motion.div>
             </div>
 
-            {/* Mobile Dropdown */}
+            {/* Fullscreen Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0, y: -10 }}
-                        animate={{ opacity: 1, height: "auto", y: 0 }}
-                        exit={{ opacity: 0, height: 0, y: -10 }}
-                        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        className="md:hidden absolute top-full left-0 w-full bg-surface/95 backdrop-blur-2xl border-b border-border overflow-hidden"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 z-40 bg-background/95 backdrop-blur-md md:hidden touch-none flex flex-col justify-center items-center h-screen w-full"
                     >
-                        <div className="flex flex-col items-center py-8 space-y-4">
+                        {/* Background subtle glow */}
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none"
+                        />
+                        <motion.div
+                            animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.15, 0.1] }}
+                            transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+                            className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent/20 rounded-full blur-[100px] pointer-events-none"
+                        />
+
+                        <div className="flex flex-col items-center space-y-8 w-full z-10">
                             {navLinks.map((link, i) => (
-                                <motion.button
-                                    key={link.name}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.06, duration: 0.3, ease: "easeOut" }}
-                                    onClick={() => scrollToSection(link.id)}
-                                    className={`text-lg font-medium transition-colors outline-none ${
-                                        activeSection === link.id ? 'text-primary' : 'text-text-muted hover:text-text-main'
-                                    }`}
-                                >
-                                    {link.name}
-                                </motion.button>
+                                <div key={link.name} className="overflow-hidden">
+                                    <motion.button
+                                        initial={{ y: 50, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        exit={{ y: -50, opacity: 0 }}
+                                        transition={{ 
+                                            delay: i * 0.1, 
+                                            duration: 0.5, 
+                                            ease: [0.33, 1, 0.68, 1] 
+                                        }}
+                                        onClick={() => scrollToSection(link.id)}
+                                        className={`text-4xl sm:text-5xl font-display font-bold tracking-tight outline-none transition-colors duration-300 ${
+                                            activeSection === link.id ? 'text-primary' : 'text-text-main hover:text-primary/70'
+                                        }`}
+                                    >
+                                        {link.name}
+                                    </motion.button>
+                                </div>
                             ))}
                         </div>
+
+                        {/* Social Links at Bottom */}
+                        <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 20, opacity: 0 }}
+                            transition={{ delay: 0.6, duration: 0.5 }}
+                            className="absolute bottom-12 flex gap-6 z-10"
+                        >
+                            {SOCIALS_NAV.map((social) => (
+                                <motion.button
+                                    key={social.name}
+                                    whileTap={{ scale: 0.9 }}
+                                    onClick={() => window.open(social.url, '_blank')}
+                                    className="text-text-muted hover:text-primary transition-colors outline-none p-2"
+                                >
+                                    <social.icon size={24} />
+                                </motion.button>
+                            ))}
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>

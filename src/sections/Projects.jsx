@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import { Github, ExternalLink, Code2 } from 'lucide-react';
 import { PROJECTS } from '../data';
@@ -135,6 +135,9 @@ const ProjectCard = ({ project, index }) => {
 
 const Projects = () => {
     const sectionRef = useRef(null);
+    const [showAll, setShowAll] = useState(false);
+    const displayedProjects = showAll ? PROJECTS : PROJECTS.slice(0, 3);
+
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "end start"],
@@ -187,10 +190,29 @@ const Projects = () => {
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {PROJECTS.map((project, index) => (
+                    {displayedProjects.map((project, index) => (
                         <ProjectCard key={project.id} project={project} index={index} />
                     ))}
                 </div>
+
+                {PROJECTS.length > 3 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4, duration: 0.5 }}
+                        className="mt-16 flex justify-center"
+                    >
+                        <motion.button
+                            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(232,168,56,0.1)" }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setShowAll(!showAll)}
+                            className="px-8 py-3 bg-surface border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide transition-all duration-300"
+                        >
+                            {showAll ? 'Show Less' : 'View All Projects'}
+                        </motion.button>
+                    </motion.div>
+                )}
             </div>
         </section>
     );

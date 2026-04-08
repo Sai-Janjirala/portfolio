@@ -13,18 +13,13 @@ const SmoothScroll = ({ children }) => {
             smoothWheel: true,
             wheelMultiplier: 1,
             touchMultiplier: 2,
+            autoRaf: true, // Use Lenis's internal RAF loop
         });
 
         lenisRef.current = lenis;
 
-        // Make lenis accessible globally FIRST, before RAF starts
+        // Make lenis accessible globally FIRST
         window.__lenis = lenis;
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
 
         return () => {
             lenis.destroy();
