@@ -3,15 +3,20 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
-    // Use a very stiff spring for a "to the point" feel with minimal drift
-    const springConfig = { damping: 40, stiffness: 400, mass: 0.5 };
+    const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
     const springX = useSpring(cursorX, springConfig);
     const springY = useSpring(cursorY, springConfig);
 
     useEffect(() => {
+        // Check for mobile/touch devices
+        const checkMobile = () => setIsMobile(window.matchMedia('(pointer: coarse)').matches);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
         const moveCursor = (e) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
@@ -22,9 +27,8 @@ const CustomCursor = () => {
 
         window.addEventListener('mousemove', moveCursor);
 
-        // Add hover listeners to interactive elements
         const attachListeners = () => {
-            const interactiveElements = document.querySelectorAll('a, button, input, textarea');
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, [data-cursor-hover]');
             interactiveElements.forEach((el) => {
                 el.addEventListener('mouseenter', handleHoverStart);
                 el.addEventListener('mouseleave', handleHoverEnd);
@@ -32,49 +36,48 @@ const CustomCursor = () => {
         };
 
         attachListeners();
-
-        // Observe DOM changes to attach listeners to new elements
         const observer = new MutationObserver(attachListeners);
         observer.observe(document.body, { childList: true, subtree: true });
 
         return () => {
             window.removeEventListener('mousemove', moveCursor);
+            window.removeEventListener('resize', checkMobile);
             observer.disconnect();
         };
     }, [cursorX, cursorY]);
 
+    if (isMobile) return null;
+
     return (
-        <div className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-exclusion">
-            {/* Main Dot - Direct Tracking for Precision */}
+        <div className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference">
+            {/* Dot */}
             <motion.div
-                className="absolute top-0 left-0 w-2 h-2 bg-white rounded-full"
+                className="absolute top-0 left-0 rounded-full bg-primary"
                 style={{
-                    x: cursorX, // Direct mapping, no spring lag
+                    x: cursorX,
                     y: cursorY,
                     translateX: "-50%",
                     translateY: "-50%",
+                    width: isHovered ? 8 : 4,
+                    height: isHovered ? 8 : 4,
                 }}
+                transition={{ width: { duration: 0.2 }, height: { duration: 0.2 } }}
             />
 
-            {/* Aesthetic Ring - Slight Spring for smooth follow */}
+            {/* Ring */}
             <motion.div
-                className="absolute top-0 left-0 border border-cyan-400 rounded-sm"
+                className="absolute top-0 left-0 border rounded-full"
                 style={{
                     x: springX,
                     y: springY,
                     translateX: "-50%",
                     translateY: "-50%",
-                    width: isHovered ? 40 : 24,
-                    height: isHovered ? 40 : 24,
-                    rotate: isHovered ? 45 : 0,
-                    opacity: 0.8,
+                    width: isHovered ? 48 : 28,
+                    height: isHovered ? 48 : 28,
+                    borderColor: isHovered ? 'rgba(232, 168, 56, 0.6)' : 'rgba(232, 168, 56, 0.3)',
                 }}
-                transition={{ duration: 0.2 }}
-            >
-                {/* Decorative corners for cyberpunk feel */}
-                <div className="absolute -top-[1px] -left-[1px] w-1.5 h-1.5 border-t border-l border-white" />
-                <div className="absolute -bottom-[1px] -right-[1px] w-1.5 h-1.5 border-b border-r border-white" />
-            </motion.div>
+                transition={{ width: { duration: 0.3 }, height: { duration: 0.3 } }}
+            />
         </div>
     );
 };

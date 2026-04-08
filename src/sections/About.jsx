@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import profile from "../assets/profile.jpg";
 
 const InteractivePhoto = () => {
@@ -15,12 +15,8 @@ const InteractivePhoto = () => {
 
     const handleMouseMove = (e) => {
         const rect = ref.current.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const mouseXVal = e.clientX - rect.left;
-        const mouseYVal = e.clientY - rect.top;
-        x.set(mouseXVal / width - 0.5);
-        y.set(mouseYVal / height - 0.5);
+        x.set(e.clientX / rect.width - 0.5);
+        y.set(e.clientY / rect.height - 0.5);
     };
 
     const handleMouseLeave = () => {
@@ -31,7 +27,7 @@ const InteractivePhoto = () => {
     return (
         <motion.div
             style={{ perspective: 1200 }}
-            className="relative w-80 h-80 md:w-[400px] md:h-[400px] xl:w-[450px] xl:h-[450px] flex items-center justify-center"
+            className="relative w-72 h-80 md:w-80 md:h-96 lg:w-96 lg:h-[28rem]"
         >
             <motion.div
                 ref={ref}
@@ -42,111 +38,140 @@ const InteractivePhoto = () => {
                     rotateY,
                     transformStyle: "preserve-3d",
                 }}
-                className="relative w-full h-full rounded-3xl transition-all duration-200"
+                className="relative w-full h-full rounded-2xl"
             >
-                {/* Back Glow - Powerful and Dynamic */}
-                <div
-                    className="absolute inset-4 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-3xl blur-2xl opacity-60 animate-pulse transform translate-z-[-40px]"
-                />
+                {/* Warm glow behind */}
+                <div className="absolute inset-4 bg-gradient-to-br from-primary/30 to-accent/20 rounded-2xl blur-2xl opacity-50 animate-pulse-slow" />
 
-                {/* Main Glass Container */}
-                <div className="relative w-full h-full bg-surface/80 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden shadow-2xl group">
+                {/* Main container */}
+                <div className="relative w-full h-full bg-surface border border-border rounded-2xl overflow-hidden shadow-2xl shadow-black/40 group">
+                    
+                    {/* Corner accents */}
+                    <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-primary/50 rounded-tl-md z-20" />
+                    <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-primary/50 rounded-tr-md z-20" />
+                    <div className="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-primary/50 rounded-bl-md z-20" />
+                    <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-primary/50 rounded-br-md z-20" />
 
-                    {/* Viewfinder Corners (Cyberpunk Aesthetic) */}
-                    <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-cyan-400 rounded-tl-lg z-20 opacity-80" />
-                    <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-purple-400 rounded-tr-lg z-20 opacity-80" />
-                    <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-purple-400 rounded-bl-lg z-20 opacity-80" />
-                    <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-cyan-400 rounded-br-lg z-20 opacity-80" />
-
-                    {/* Image with enhanced Depth */}
+                    {/* Image */}
                     <motion.div
-                        style={{ translateZ: "40px" }}
-                        className="w-full h-full relative p-2"
+                        style={{ translateZ: "30px" }}
+                        className="w-full h-full p-1.5"
                     >
-                        <div className="w-full h-full rounded-2xl overflow-hidden relative">
+                        <div className="w-full h-full rounded-xl overflow-hidden relative">
                             <img
                                 src={profile}
-                                alt="About Me"
-                                className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-110"
+                                alt="Sai Janjirala"
+                                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                                 style={{ objectPosition: "center top" }}
                             />
-
-                            {/* Scanline Effect Overlay */}
-                            <div
-                                className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
-                                style={{
-                                    backgroundImage: "linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5) 50%)",
-                                    backgroundSize: "100% 4px"
-                                }}
-                            />
-
-                            {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
+                            {/* Warm gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-primary/10 opacity-40 group-hover:opacity-20 transition-opacity duration-500" />
                         </div>
                     </motion.div>
 
-                    {/* Animated Border Gradient */}
-                    <div className="absolute inset-0 border border-white/5 rounded-3xl pointer-events-none group-hover:border-cyan-500/40 transition-colors duration-500" />
+                    {/* Border glow on hover */}
+                    <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/20 rounded-2xl transition-colors duration-500 pointer-events-none" />
                 </div>
             </motion.div>
         </motion.div>
     );
 };
 
+const AnimatedCounter = ({ value, suffix = "" }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    
+    return (
+        <span ref={ref}>
+            {isInView ? (
+                <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                >
+                    {value}{suffix}
+                </motion.span>
+            ) : "0"}
+        </span>
+    );
+};
+
 const About = () => {
     return (
-        <section id="about" className="py-20 bg-background relative overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute top-1/4 left-[-10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 right-[-10%] w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none" />
+        <section id="about" className="py-24 md:py-32 relative overflow-hidden">
+            {/* Background accents */}
+            <div className="absolute top-1/3 left-[-10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-1/4 right-[-10%] w-[300px] h-[300px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="container mx-auto px-8 md:px-16 lg:px-28 xl:px-36 relative z-10">
+            <div className="container mx-auto px-6 md:px-12 lg:px-20 xl:px-28 relative z-10">
+                {/* Section header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
-                    className="flex flex-col items-center"
+                    transition={{ duration: 0.7 }}
+                    className="text-center mb-16"
                 >
-                    {/* Section Title */}
-                    <h2 className="text-3xl md:text-4xl font-bold mb-10 text-text-main text-center">
-                        About <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Me</span>
+                    <p className="text-primary text-sm tracking-[0.3em] uppercase font-heading mb-3">Who I Am</p>
+                    <h2 className="text-4xl md:text-5xl font-display font-bold text-text-main">
+                        About <span className="text-primary">Me</span>
                     </h2>
+                </motion.div>
 
-                    {/* Photo - Centered on top */}
-                    <div className="flex justify-center mb-10">
+                {/* Content grid */}
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    {/* Photo - Left */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -60 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className="flex justify-center lg:justify-end"
+                    >
                         <InteractivePhoto />
-                    </div>
+                    </motion.div>
 
-                    {/* Content Below */}
-                    <div className="w-full max-w-3xl">
-                        <div className="glass-card p-6 md:p-8 rounded-2xl border border-text-main/10 bg-surface/50 backdrop-blur-sm shadow-xl">
-                            {/* Main Profession Highlight */}
-                            <p className="text-lg md:text-xl font-semibold text-text-main mb-4 text-center">
-                                I'm a <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent font-bold">Full-Stack Developer</span> who turns ideas into real-world products.
+                    {/* Text - Right */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 60 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className="space-y-6"
+                    >
+                        <div className="space-y-4">
+                            <p className="text-lg md:text-xl font-heading font-semibold text-text-main leading-relaxed">
+                                I'm a <span className="text-primary">Full-Stack Developer</span> who turns ideas into real-world products.
                             </p>
 
-                            <p className="text-text-muted leading-relaxed mb-3">
-                                I build across the entire stack — crafting <span className="text-cyan-400 font-medium">clean, user-friendly interfaces</span> and writing <span className="text-cyan-400 font-medium">efficient, scalable backend logic</span>. My focus is on code that's <span className="text-purple-400 font-medium">clear, structured, and maintainable</span>, with strong attention to <span className="text-cyan-400 font-medium">performance, security, and usability</span>.
-                            </p>
                             <p className="text-text-muted leading-relaxed">
-                                I learn by building — breaking things, fixing them, and understanding why. I value <span className="text-purple-400 font-medium">consistency over hype</span>, meet deadlines, communicate clearly, and take ownership. Always looking to <span className="text-cyan-400 font-medium">learn, improve, and build software people can rely on</span>.
+                                I build across the entire stack — crafting <span className="text-secondary font-medium">clean, user-friendly interfaces</span> and writing <span className="text-secondary font-medium">efficient, scalable backend logic</span>. My focus is on code that's <span className="text-primary/80 font-medium">clear, structured, and maintainable</span>, with strong attention to performance, security, and usability.
+                            </p>
+
+                            <p className="text-text-muted leading-relaxed">
+                                I learn by building — breaking things, fixing them, and understanding why. I value <span className="text-primary/80 font-medium">consistency over hype</span>, meet deadlines, communicate clearly, and take ownership. Always looking to learn, improve, and build software people can rely on.
                             </p>
                         </div>
+
+                        {/* Divider */}
+                        <div className="h-px bg-gradient-to-r from-primary/30 via-border to-transparent" />
 
                         {/* Stats */}
-                        <div className="flex gap-8 mt-8 justify-center">
-                            <div className="text-center">
-                                <h3 className="text-2xl font-bold text-text-main">1+</h3>
-                                <p className="text-sm text-text-muted">Years Experience</p>
+                        <div className="flex gap-12">
+                            <div>
+                                <h3 className="text-3xl font-display font-bold text-primary">
+                                    <AnimatedCounter value="1" suffix="+" />
+                                </h3>
+                                <p className="text-sm text-text-muted font-heading mt-1">Years Experience</p>
                             </div>
-                            <div className="text-center">
-                                <h3 className="text-2xl font-bold text-text-main">30+</h3>
-                                <p className="text-sm text-text-muted">Projects Completed</p>
+                            <div>
+                                <h3 className="text-3xl font-display font-bold text-primary">
+                                    <AnimatedCounter value="30" suffix="+" />
+                                </h3>
+                                <p className="text-sm text-text-muted font-heading mt-1">Projects Built</p>
                             </div>
                         </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
             </div>
         </section>
     );

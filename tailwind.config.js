@@ -4,25 +4,49 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class', // Enable dark mode manually if needed, or default to media. User asked for dark mode default.
   theme: {
     extend: {
       colors: {
-        primary: "#646cff", // Example, can customize
-        dark: "#1a1a1a",
+        background: "#0a0a0b",
+        surface: "#141416",
+        "surface-light": "#1c1c1f",
+        primary: "#e8a838",
+        "primary-dim": "#c48a2a",
+        secondary: "#f5e6d3",
+        accent: "#d4a056",
+        "text-main": "#ede8e3",
+        "text-muted": "#8a8278",
+        border: "#2a2a2d",
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
+        heading: ['Space Grotesk', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
+        'float': 'float 6s ease-in-out infinite',
+        'glow': 'glow 2s ease-in-out infinite alternate',
+        'pulse-slow': 'pulseSlow 4s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
-        }
-      }
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        glow: {
+          from: { boxShadow: '0 0 10px #e8a838, 0 0 20px #e8a838' },
+          to: { boxShadow: '0 0 20px #d4a056, 0 0 30px #d4a056' },
+        },
+        pulseSlow: {
+          '0%, 100%': { opacity: '0.4' },
+          '50%': { opacity: '0.8' },
+        },
+      },
     },
   },
   plugins: [],
