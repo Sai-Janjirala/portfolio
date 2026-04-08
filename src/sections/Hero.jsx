@@ -11,7 +11,7 @@ const Hero = () => {
 
     useEffect(() => {
         const currentRole = roles[roleIndex];
-        
+
         if (isTyping) {
             if (displayText.length < currentRole.length) {
                 const timeout = setTimeout(() => {
@@ -35,7 +35,7 @@ const Hero = () => {
         }
     }, [displayText, isTyping, roleIndex]);
 
-    const firstName = "SAI";
+    const firstName = "SI";
     const lastName = "JANJIRALA";
 
     const letterVariants = {
@@ -71,9 +71,9 @@ const Hero = () => {
             {/* Background ambient glows */}
             <div className="absolute top-[-20%] right-[-15%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
             <div className="absolute bottom-[-20%] left-[-15%] w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
-            
+
             {/* Subtle grid pattern */}
-            <div 
+            <div
                 className="absolute inset-0 opacity-[0.03] pointer-events-none"
                 style={{
                     backgroundImage: `linear-gradient(rgba(232,168,56,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(232,168,56,0.3) 1px, transparent 1px)`,
@@ -122,7 +122,7 @@ const Hero = () => {
                                 initial="hidden"
                                 animate="visible"
                                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-[0.2em] inline-block"
-                                style={{ 
+                                style={{
                                     transformOrigin: 'bottom center',
                                     color: 'transparent',
                                     WebkitTextStroke: '1px #e8a838',
