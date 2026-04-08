@@ -40,7 +40,7 @@ const Hero = () => {
         }
     }, [displayText, isTyping, roleIndex]);
 
-    const firstName = "S";
+    const firstName = "SAI";
     const lastName = "JANJIRALA";
 
     const letterVariants = {
