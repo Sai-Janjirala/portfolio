@@ -67,7 +67,7 @@ export const PROJECTS = [
         description: "A custom media search website featuring dynamic photos and videos elements.",
         tech: ["tailwind css", "redux", "react"],
         link: "",
-        github: "https://github.com/Sai-Janjirala",
+        github: "https://github.com/Sai-Janjirala/redux",
         image: "https://images.unsplash.com/photo-1696041760189-d9296026e1c8?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -76,7 +76,7 @@ export const PROJECTS = [
         description: "A custom Marvel Studios website featuring dynamic layouts and interactive elements.",
         tech: ["HTML", "CSS", "JavaScript"],
         link: "https://mediaa-search.netlify.app/",
-        github: "https://github.com/Sai-Janjirala",
+        github: "https://github.com/Sai-Janjirala/javascript/tree/Main/modern%20webpage",
         image: "https://i.pinimg.com/1200x/5a/80/a6/5a80a6086e028cedf49061152a9792a3.jpg"
     },
     {
@@ -85,7 +85,7 @@ export const PROJECTS = [
         description: "A classic snake game with modern UI and smooth gameplay.",
         tech: ["HTML", "CSS", "javascript"],
         link: "https://sai-snakegame.netlify.app/",
-        github: "https://github.com/Sai-Janjirala",
+        github: "https://github.com/Sai-Janjirala/javascript/tree/Main/snakegame",
         image: "https://i.pinimg.com/736x/a7/d1/8c/a7d18ca3395aefdc09f1e6acd88bfce7.jpg"
     },
     {
@@ -94,7 +94,7 @@ export const PROJECTS = [
         description: "A custom web gallery featuring dynamic photos and videos elements.",
         tech: ["tailwind css", "react"],
         link: "web-galleryy.netlify.app",
-        github: "https://github.com/Sai-Janjirala",
+        github: "https://github.com/Sai-Janjirala/react-js/tree/Main/gallery",
         image: "https://i.pinimg.com/736x/66/bf/ea/66bfeaa804739e6172081c6e59c631cd.jpg"
     },
     {
@@ -103,7 +103,7 @@ export const PROJECTS = [
         description: "A custom nike store website featuring dynamic layouts and interactive elements.",
         tech: ["react", " tailwind CSS"],
         link: "nikee-storee.netlify.app",
-        github: "https://github.com/Sai-Janjirala",
+        github: "https://github.com/Sai-Janjirala/react-js/tree/Main/project_1",
         image: "https://i.pinimg.com/1200x/15/36/a8/1536a86a6be93707cb8a103dfad53a4f.jpg"
     },
     {
@@ -112,7 +112,7 @@ export const PROJECTS = [
         description: "A custom notes app featuring dynamic layouts and interactive elements.",
         tech: ["tailwind CSS", "react"],
         link: "https://notesss-app.netlify.app/",
-        github: "https://github.com/Sai-Janjirala",
+        github: "https://github.com/Sai-Janjirala/react-js/tree/Main/notes-app",
         image: "https://i.pinimg.com/736x/de/79/1b/de791bd00cb1aec78474674f084abc1d.jpg"
     }
 ];
