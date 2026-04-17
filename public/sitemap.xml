@@ -5,4 +5,29 @@
     <lastmod>2026-04-17</lastmod>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://sai-janjirala-portfolio.vercel.app/#about</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sai-janjirala-portfolio.vercel.app/#skills</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sai-janjirala-portfolio.vercel.app/#projects</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sai-janjirala-portfolio.vercel.app/#certifications</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sai-janjirala-portfolio.vercel.app/#contact</loc>
+    <lastmod>2026-04-17</lastmod>
+    <priority>0.8</priority>
+  </url>
 </urlset>
