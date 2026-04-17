@@ -311,16 +311,31 @@ const UI = {
                         whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(232,168,56,0.3)" }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => {
+                            const el = document.getElementById('projects');
+                            if (el) {
+                                if (window.__lenis) window.__lenis.scrollTo(el, { offset: -80 });
+                                else el.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }}
+                        className="group relative px-8 py-3 bg-primary text-background font-semibold rounded-full overflow-hidden flex items-center justify-center transition-all duration-300"
+                    >
+                        <span className="relative z-10 font-heading text-sm tracking-wide">View Projects</span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity" />
+                    </motion.button>
+                    
+                    <motion.button
+                        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(232,168,56,0.1)" }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
                             const link = document.createElement('a');
                             link.href = "/resume.png";
                             link.download = "Sai_Janjirala_Resume.png";
                             link.click();
                         }}
-                        className="group relative px-8 py-3 bg-primary text-background font-semibold rounded-full overflow-hidden flex items-center gap-2 transition-all duration-300"
+                        className="px-8 py-3 bg-surface border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300"
                     >
-                        <span className="relative z-10 font-heading text-sm tracking-wide">Resume</span>
-                        <Download size={16} className="relative z-10 group-hover:translate-y-0.5 transition-transform" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity" />
+                        <span>Resume</span>
+                        <Download size={16} />
                     </motion.button>
 
                     <motion.button
@@ -333,7 +348,7 @@ const UI = {
                                 else el.scrollIntoView({ behavior: 'smooth' });
                             }
                         }}
-                        className="px-8 py-3 border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide transition-all duration-300"
+                        className="px-8 py-3 border border-border hover:border-text-main rounded-full text-text-main font-heading text-sm tracking-wide flex items-center justify-center transition-all duration-300"
                     >
                         Contact Me
                     </motion.button>
