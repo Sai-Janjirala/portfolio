@@ -92,6 +92,7 @@ const InteractivePhoto = () => {
                             <img
                                 src={profile}
                                 alt="Sai Janjirala"
+                                loading="lazy"
                                 className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                                 style={{ objectPosition: "center top" }}
                             />

@@ -47,6 +47,7 @@ const TimelineCard = ({ cert, index, isLeft }) => {
                     <motion.img
                         src={cert.image}
                         alt={cert.title}
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         initial={{ scale: 1.1 }}
                         whileInView={{ scale: 1 }}

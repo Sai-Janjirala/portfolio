@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sai-janjirala-portfolio.vercel.app/sitemap.xml
