@@ -10,9 +10,6 @@ const Hero = () => {
     const [isTyping, setIsTyping] = useState(true);
 
     const { scrollY } = useScroll();
-    const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
-    const heroScale = useTransform(scrollY, [0, 600], [1, 0.95]);
-    const heroY = useTransform(scrollY, [0, 600], [0, 100]);
 
     useEffect(() => {
         const currentRole = roles[roleIndex];
@@ -44,7 +41,7 @@ const Hero = () => {
     const lastName = "JANJIRALA";
 
     const letterVariants = {
-        hidden: { opacity: 0, y: 40 },
+        hidden: { y: 40, opacity: 0.01 }, // Using 0.01 forces the browser to paint it immediately while appearing invisible to user until animate fires
         visible: (i) => ({
             opacity: 1,
             y: 0,
@@ -206,8 +203,7 @@ const UI = {
                 />
             </div>
 
-            <motion.div
-                style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
+            <div
                 className="relative z-10 flex flex-col items-center text-center px-6"
             >
                 {/* Greeting */}
@@ -370,7 +366,7 @@ const UI = {
                         </motion.button>
                     ))}
                 </motion.div>
-            </motion.div>
+            </div>
 
             {/* Scroll Indicator */}
             <motion.div

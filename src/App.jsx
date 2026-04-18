@@ -13,16 +13,8 @@ import SmoothScroll from './components/SmoothScroll'
 import Footer from './components/Footer'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true)
-
-  const handleLoadingComplete = useCallback(() => {
-    setIsLoading(false)
-  }, [])
-
   return (
-    <>
-      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
-      <SmoothScroll>
+    <SmoothScroll>
         <div className="w-full bg-background text-text-main font-sans overflow-x-hidden min-h-screen grain-overlay">
           <CustomCursor />
           <Navbar />
@@ -37,8 +29,7 @@ function App() {
           </main>
           <Footer />
         </div>
-      </SmoothScroll>
-    </>
+    </SmoothScroll>
   )
 }
 
