@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './sections/Hero'
 import About from './sections/About'
 import Skills from './sections/Skills'
+import LeetCode from './sections/LeetCode'
 import Projects from './sections/Projects'
 import Certifications from './sections/Certifications'
 import Contact from './sections/Contact'
@@ -22,13 +23,14 @@ function App() {
     <>
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       <SmoothScroll>
-        <div className={`w-full bg-background text-text-main font-sans overflow-x-hidden min-h-screen grain-overlay ${isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
+        <div className="w-full bg-background text-text-main font-sans overflow-x-hidden min-h-screen grain-overlay">
           <CustomCursor />
           <Navbar />
           <main>
             <Hero />
             <About />
             <Skills />
+            <LeetCode />
             <Projects />
             <Certifications />
             <Contact />

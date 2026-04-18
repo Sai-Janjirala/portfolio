@@ -93,8 +93,10 @@ const InteractivePhoto = () => {
                                 src={profile}
                                 alt="Sai Janjirala"
                                 loading="lazy"
+                                width="400"
+                                height="500"
                                 className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-                                style={{ objectPosition: "center top" }}
+                                style={{ objectPosition: "center top", aspectRatio: "4/5" }}
                             />
                             {/* Warm gradient overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-primary/10 opacity-40 group-hover:opacity-20 transition-opacity duration-500" />
@@ -137,14 +139,13 @@ const About = () => {
     const bgY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
     const textRevealVariants = {
-        hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+        hidden: { opacity: 0, y: 30 },
         visible: (i) => ({
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
             transition: {
                 delay: 0.3 + i * 0.15,
-                duration: 0.7,
+                duration: 0.6,
                 ease: [0.25, 0.46, 0.45, 0.94],
             },
         }),

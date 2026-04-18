@@ -19,9 +19,9 @@ export default {
         border: "#2a2a2d",
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Syne', 'sans-serif'],
-        heading: ['Space Grotesk', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Syne', 'Syne Fallback', 'sans-serif'],
+        heading: ['Space Grotesk', 'Space Grotesk Fallback', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -44,14 +44,13 @@ const Hero = () => {
     const lastName = "JANJIRALA";
 
     const letterVariants = {
-        hidden: { opacity: 0, y: 80, rotateX: -90 },
+        hidden: { opacity: 0, y: 40 },
         visible: (i) => ({
             opacity: 1,
             y: 0,
-            rotateX: 0,
             transition: {
-                delay: 0.5 + i * 0.08,
-                duration: 0.8,
+                delay: 0.05 + i * 0.05,
+                duration: 0.5,
                 ease: [0.25, 0.46, 0.45, 0.94],
             },
         }),
@@ -68,12 +67,12 @@ const Hero = () => {
         }
     };
 
-    // Floating particles
-    const particles = useMemo(() => Array.from({ length: 30 }, (_, i) => ({
+    // Floating particles — reduced to 15 for perf (was 30)
+    const particles = useMemo(() => Array.from({ length: 15 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 4 + 1,
+        size: Math.random() * 3 + 1,
         duration: Math.random() * 10 + 10,
         delay: Math.random() * 5,
     })), []);
@@ -213,9 +212,9 @@ const UI = {
             >
                 {/* Greeting */}
                 <motion.p
-                    initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    transition={{ delay: 0.3, duration: 0.8 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
                     className="text-text-muted text-sm md:text-base tracking-[0.3em] uppercase font-heading mb-6"
                 >
 
@@ -267,7 +266,7 @@ const UI = {
                 <motion.div
                     initial={{ scaleX: 0, opacity: 0 }}
                     animate={{ scaleX: 1, opacity: 1 }}
-                    transition={{ delay: 1.8, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="w-24 h-px bg-gradient-to-r from-transparent via-primary to-transparent mb-8"
                 />
 
@@ -275,7 +274,7 @@ const UI = {
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 2, duration: 0.6 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
                     className="text-lg md:text-xl font-heading text-text-muted mb-10 h-8 flex items-center"
                 >
                     <span className="text-primary mr-2">{'<'}</span>
@@ -290,21 +289,16 @@ const UI = {
                     <span className="text-primary ml-2">{'/>'}</span>
                 </motion.div>
 
-                {/* Description */}
-                <motion.p
-                    initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    transition={{ delay: 2.2, duration: 0.8 }}
-                    className="text-text-muted text-base md:text-lg max-w-lg mb-10 leading-relaxed font-light"
-                >
+                {/* Description — LCP element: rendered visible immediately, no delay */}
+                <p className="text-text-muted text-base md:text-lg max-w-lg mb-10 leading-relaxed font-light">
                     Turning ideas into real-life products. I build accessible, pixel-perfect, and performant web experiences.
-                </motion.p>
+                </p>
 
                 {/* CTA Buttons */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 2.4, duration: 0.6 }}
+                    transition={{ delay: 0.6, duration: 0.5 }}
                     className="flex flex-wrap gap-4 justify-center mb-12"
                 >
                     <motion.button
@@ -358,7 +352,7 @@ const UI = {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 2.6, duration: 0.6 }}
+                    transition={{ delay: 0.7, duration: 0.5 }}
                     className="flex gap-5"
                 >
                     {SOCIALS.map((social, i) => (
@@ -366,7 +360,7 @@ const UI = {
                             key={social.name}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 2.6 + i * 0.1, duration: 0.4 }}
+                            transition={{ delay: 0.7 + i * 0.05, duration: 0.3 }}
                             whileHover={{ scale: 1.2, y: -3, color: "#e8a838" }}
                             whileTap={{ scale: 0.9 }}
                             onClick={() => window.open(social.url, '_blank', 'noopener,noreferrer')}
@@ -382,7 +376,7 @@ const UI = {
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 3, duration: 0.6 }}
+                transition={{ delay: 1, duration: 0.5 }}
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
                 onClick={scrollToAbout}
             >

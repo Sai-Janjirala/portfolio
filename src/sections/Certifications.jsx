@@ -48,6 +48,9 @@ const TimelineCard = ({ cert, index, isLeft }) => {
                         src={cert.image}
                         alt={cert.title}
                         loading="lazy"
+                        width="600"
+                        height="400"
+                        style={{ aspectRatio: "3/2" }}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         initial={{ scale: 1.1 }}
                         whileInView={{ scale: 1 }}

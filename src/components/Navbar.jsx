@@ -6,6 +6,7 @@ const navLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Skills", id: "skills" },
+    { name: "LeetCode", id: "leetcode" },
     { name: "Projects", id: "projects" },
     { name: "Certifications", id: "certifications" },
     { name: "Contact", id: "contact" },

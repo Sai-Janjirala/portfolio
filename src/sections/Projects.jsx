@@ -53,7 +53,9 @@ const ProjectCard = ({ project, index }) => {
                         src={project.image}
                         alt={project.title}
                         loading="lazy"
-                        style={{ translateZ: "30px" }}
+                        width="800"
+                        height="450"
+                        style={{ translateZ: "30px", aspectRatio: "16/9" }}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
