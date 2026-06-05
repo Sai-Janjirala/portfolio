@@ -84,9 +84,14 @@ const HoverGallery = ({ images, title }) => {
 
     return (
         <div 
-            className="relative w-full h-[260px] md:h-[280px] overflow-hidden bg-black/40 rounded-t-2xl cursor-pointer"
+            className="relative w-full h-[200px] sm:h-[240px] md:h-[260px] overflow-hidden bg-black/40 rounded-t-2xl cursor-pointer"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={() => {
+                if (!isHovered) {
+                    setLightboxIndex(0);
+                }
+            }}
         >
             {/* Default Cover Photo */}
             <img 
@@ -95,6 +100,11 @@ const HoverGallery = ({ images, title }) => {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
+
+            {/* Tap indicator for mobile touch devices */}
+            <div className="absolute bottom-4 right-4 z-10 bg-background/90 backdrop-blur-md border border-border/30 px-3 py-1 rounded-full text-[9px] font-mono text-primary animate-pulse lg:hidden">
+                Tap to View Gallery
+            </div>
 
             {/* Hover Gallery Grid Overlay */}
             <AnimatePresence>
@@ -309,8 +319,8 @@ const Hackathons = () => {
             tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Tailwind CSS"],
             role: "Team Leader",
             images: [
-                "/certificates/craftathon_laptop.png",
                 "/certificates/craftathon_2.jpg",
+                "/certificates/craftathon_laptop.png",
                 "/certificates/craftathon_1.jpg",
                 "/certificates/craftathon_3.jpg",
                 "/certificates/craftathon_4.jpg",
