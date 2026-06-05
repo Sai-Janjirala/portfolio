@@ -32,8 +32,8 @@ function App() {
             <About />
             <Skills />
             <LeetCode />
-            <Projects />
             <Hackathons />
+            <Projects />
             <Certifications />
             <Contact />
           </main>

@@ -73,7 +73,7 @@ const Lightbox = ({ images, index, onClose }) => {
     );
 };
 
-const HoverGallery = ({ images, title }) => {
+const HoverGallery = ({ images, title, coverPosition }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState(null);
 
@@ -97,6 +97,7 @@ const HoverGallery = ({ images, title }) => {
             <img 
                 src={images[0]} 
                 alt={`${title} Cover`}
+                style={{ objectPosition: coverPosition || 'center' }}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
@@ -146,7 +147,7 @@ const HoverGallery = ({ images, title }) => {
                                         className="col-span-7 h-full overflow-hidden rounded border border-border/30 hover:border-primary/50 transition-colors"
                                         onClick={(e) => handlePhotoClick(e, 0)}
                                     >
-                                        <img src={images[0]} className="w-full h-full object-cover hover:scale-103 transition-transform duration-500" alt="" />
+                                        <img src={images[0]} style={{ objectPosition: coverPosition || 'center' }} className="w-full h-full object-cover hover:scale-103 transition-transform duration-500" alt="" />
                                     </motion.div>
                                     <div className="col-span-5 grid grid-cols-2 gap-1.5 h-full overflow-hidden">
                                         {images.slice(1, 5).map((img, idx) => (
@@ -225,7 +226,7 @@ const HackathonCard = ({ hack, index }) => {
             </div>
 
             {/* Photo Hover Gallery Header */}
-            <HoverGallery images={hack.images} title={hack.title} />
+            <HoverGallery images={hack.images} title={hack.title} coverPosition={hack.coverPosition} />
 
             {/* Content Body */}
             <div className="p-6 flex flex-col flex-1">
@@ -309,6 +310,7 @@ const Hackathons = () => {
             title: "CRAFTATHON '26",
             organizer: "Gandhinagar University & IEEE Computer Society",
             date: "April 3, 2026",
+            coverPosition: "center 5%",
             location: "Gandhinagar University",
             description: "Led a development team ('LKcoders') in a high-speed logic sprint, constructing a responsive web platform from scratch. Coordinated timeline sprints, resolved system merge requests, and successfully demoed the product pitch to corporate panels.",
             highlights: [
