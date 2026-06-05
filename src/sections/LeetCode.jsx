@@ -53,7 +53,7 @@ const ProgressRing = ({ solved, total, color, gradientId, label, delay = 0 }) =>
             initial={{ opacity: 0, scale: 0.8, y: 30 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ delay, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
             whileHover={{ scale: 1.05, y: -5 }}
             className="group flex flex-col items-center"
         >
@@ -82,13 +82,13 @@ const ProgressRing = ({ solved, total, color, gradientId, label, delay = 0 }) =>
                         strokeDasharray={circumference}
                         initial={{ strokeDashoffset: circumference }}
                         animate={isInView ? { strokeDashoffset: circumference - (circumference * percentage) / 100 } : {}}
-                        transition={{ delay: delay + 0.3, duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        transition={{ delay: delay + 0.15, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                     />
                 </svg>
                 {/* Center count */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-2xl md:text-3xl font-display font-bold" style={{ color: c.text }}>
-                        <AnimatedNumber value={solved} delay={delay + 0.3} duration={1.5} />
+                        <AnimatedNumber value={solved} delay={delay + 0.15} duration={0.8} />
                     </span>
                     <span className="text-[10px] text-text-muted font-heading">/{total}</span>
                 </div>
@@ -97,7 +97,7 @@ const ProgressRing = ({ solved, total, color, gradientId, label, delay = 0 }) =>
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: delay + 0.5, duration: 0.4 }}
+                transition={{ delay: delay + 0.3, duration: 0.2 }}
                 className="mt-3 text-xs font-heading font-semibold uppercase tracking-widest"
                 style={{ color: c.text }}
             >
@@ -139,7 +139,7 @@ const TerminalBlock = ({ stats }) => {
             } else {
                 clearInterval(interval);
             }
-        }, 150);
+        }, 40);
         return () => clearInterval(interval);
     }, [isInView]);
 
@@ -160,16 +160,15 @@ const TerminalBlock = ({ stats }) => {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative bg-[#0d0d0f] border border-border/50 rounded-2xl overflow-hidden shadow-2xl shadow-black/40"
+            className="relative bg-surface/20 border border-border/40 rounded-2xl overflow-hidden backdrop-blur-md hover:border-primary/20 transition-all duration-500 shadow-xl"
         >
-            {/* Title bar */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-surface/80 border-b border-border/30">
-                <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+            {/* Custom geometric shell header */}
+            <div className="flex items-center justify-between px-5 py-3.5 bg-surface/40 border-b border-border/30 backdrop-blur-sm">
+                <div className="flex items-center gap-2">
+                    <Terminal size={14} className="text-primary" />
+                    <span className="text-[10px] font-mono font-medium tracking-wider text-text-muted uppercase">SYSTEM_SHELL // LEETCODE_STATS</span>
                 </div>
-                <span className="text-xs font-mono text-text-muted/60 ml-2">leetcode-stats.sh</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-primary/80 shadow-[0_0_8px_#e8a838] animate-pulse" />
             </div>
 
             {/* Terminal body */}
@@ -229,37 +228,61 @@ const StatBadge = ({ icon: Icon, label, value, delay }) => (
 );
 
 // ─── Contribution Heatmap ──────────────────────────────────────────
-const ContributionHeatmap = () => {
+// ─── Contribution Heatmap ──────────────────────────────────────────
+const ContributionHeatmap = ({ submissionCalendar }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-    // Generate mock heatmap data (52 weeks × 7 days)
+    // Generate heatmap data (40 weeks × 7 days) from dynamic calendar or fallback to mock
     const heatmapData = useMemo(() => {
+        if (!submissionCalendar || Object.keys(submissionCalendar).length === 0) {
+            // Generate mock heatmap data (40 weeks × 7 days) as fallback
+            const data = [];
+            for (let week = 0; week < 40; week++) {
+                const weekData = [];
+                for (let day = 0; day < 7; day++) {
+                    const rand = Math.random();
+                    let level = 0;
+                    if (rand > 0.6) level = 1;
+                    if (rand > 0.75) level = 2;
+                    if (rand > 0.88) level = 3;
+                    if (rand > 0.95) level = 4;
+                    weekData.push(level);
+                }
+                data.push(weekData);
+            }
+            return data;
+        }
+
         const data = [];
+        const today = new Date();
+        const startDay = new Date(today);
+        // Align starting day to Sunday, 40 weeks ago
+        startDay.setDate(today.getDate() - 40 * 7 - today.getDay());
+        startDay.setHours(0, 0, 0, 0);
+
         for (let week = 0; week < 40; week++) {
             const weekData = [];
             for (let day = 0; day < 7; day++) {
-                // Create a realistic-looking pattern
-                const rand = Math.random();
+                const currentDay = new Date(startDay);
+                currentDay.setDate(startDay.getDate() + (week * 7 + day));
+                
+                // LeetCode's submissionCalendar keys represent midnight UTC in seconds.
+                const utcMidnight = Date.UTC(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate()) / 1000;
+                const count = submissionCalendar[String(utcMidnight)] || 0;
+
                 let level = 0;
-                if (rand > 0.6) level = 1;
-                if (rand > 0.75) level = 2;
-                if (rand > 0.88) level = 3;
-                if (rand > 0.95) level = 4;
+                if (count > 0 && count <= 2) level = 1;
+                else if (count > 2 && count <= 5) level = 2;
+                else if (count > 5 && count <= 10) level = 3;
+                else if (count > 10) level = 4;
+
                 weekData.push(level);
             }
             data.push(weekData);
         }
         return data;
-    }, []);
-
-    const levelColors = [
-        'bg-[#161b22]',       // 0 - no activity
-        'bg-[#0e4429]',       // 1 - low
-        'bg-[#006d32]',       // 2 - medium
-        'bg-[#26a641]',       // 3 - high
-        'bg-[#39d353]',       // 4 - very high
-    ];
+    }, [submissionCalendar]);
 
     const levelColorsLC = [
         'bg-white/[0.04]',
@@ -294,7 +317,7 @@ const ContributionHeatmap = () => {
                         className="flex flex-col gap-[3px]"
                         initial={{ opacity: 0, y: 10 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ delay: 0.3 + weekIdx * 0.02, duration: 0.3 }}
+                        transition={{ delay: 0.1 + weekIdx * 0.005, duration: 0.2 }}
                     >
                         {week.map((level, dayIdx) => (
                             <div
@@ -327,9 +350,8 @@ const LeetCode = () => {
     });
     const bgY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
-    // Stats sourced from LeetCode GraphQL API for user: sai_janjirala
-    // Last updated: April 2026 — update periodically to keep fresh
-    const stats = {
+    // Dynamic stats state initialized with current cached fallback stats
+    const [stats, setStats] = useState({
         totalSolved: 19,
         totalQuestions: 3902,
         easySolved: 13,
@@ -338,11 +360,60 @@ const LeetCode = () => {
         totalMedium: 2042,
         hardSolved: 0,
         totalHard: 923,
-        acceptanceRate: null,   // not publicly exposed via API
+        acceptanceRate: null,
         ranking: 4183649,
-        streak: null,           // not publicly exposed via API
-        contestRating: null,    // not publicly exposed via API
-    };
+        streak: null,
+        contestRating: null,
+        submissionCalendar: {},
+    });
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [isLive, setIsLive] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchStats = async () => {
+            try {
+                const res = await fetch('https://alfa-leetcode-api.onrender.com/sai_janjirala/profile');
+                if (!res.ok) throw new Error('Network response was not ok');
+                const data = await res.json();
+                
+                if (isMounted && data && data.totalSolved !== undefined) {
+                    setStats({
+                        totalSolved: data.totalSolved || 0,
+                        totalQuestions: data.totalQuestions || 3949,
+                        easySolved: data.easySolved || 0,
+                        totalEasy: data.totalEasy || 947,
+                        mediumSolved: data.mediumSolved || 0,
+                        totalMedium: data.totalMedium || 2063,
+                        hardSolved: data.hardSolved || 0,
+                        totalHard: data.totalHard || 939,
+                        acceptanceRate: data.acceptanceRate || null,
+                        ranking: data.ranking || null,
+                        streak: data.streak || null,
+                        contestRating: data.contestRating || null,
+                        submissionCalendar: data.submissionCalendar || {},
+                    });
+                    setIsLive(true);
+                }
+            } catch (err) {
+                console.error('Failed to fetch dynamic LeetCode statistics:', err);
+                if (isMounted) {
+                    setIsError(true);
+                }
+            } finally {
+                if (isMounted) {
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        fetchStats();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     return (
         <section id="leetcode" className="py-24 md:py-32 relative overflow-hidden" ref={sectionRef}>
@@ -409,6 +480,26 @@ const LeetCode = () => {
                     >
                         Sharpening problem-solving skills, one algorithm at a time.
                     </motion.p>
+
+                    {/* Premium status indicator */}
+                    <div className="flex justify-center mt-6">
+                        {isLive ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] md:text-xs font-mono text-emerald-400">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                Live Stats Connected
+                            </div>
+                        ) : isError ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] md:text-xs font-mono text-amber-400 animate-bounce">
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                Offline Mode (Cached Stats)
+                            </div>
+                        ) : isLoading ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] md:text-xs font-mono text-primary">
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                                Syncing Live stats...
+                            </div>
+                        ) : null}
+                    </div>
                 </motion.div>
 
                 {/* Progress Rings */}
@@ -466,7 +557,7 @@ const LeetCode = () => {
                 <div className="grid lg:grid-cols-2 gap-8 mb-14">
                     {/* Left: Quick stat badges */}
                     <div className="grid grid-cols-2 gap-4">
-                        <StatBadge icon={Trophy} label="Global Ranking" value={`#${stats.ranking?.toLocaleString()}`} delay={0.1} />
+                        <StatBadge icon={Trophy} label="Global Ranking" value={stats.ranking ? `#${stats.ranking.toLocaleString()}` : 'N/A'} delay={0.1} />
                         <StatBadge icon={Target} label="Total Solved" value={stats.totalSolved} delay={0.2} />
                         <StatBadge icon={Zap} label="Easy Solved" value={stats.easySolved} delay={0.3} />
                         <StatBadge icon={TrendingUp} label="Medium Solved" value={stats.mediumSolved} delay={0.4} />
@@ -477,7 +568,7 @@ const LeetCode = () => {
                 </div>
 
                 {/* Contribution Heatmap */}
-                <ContributionHeatmap />
+                <ContributionHeatmap submissionCalendar={stats.submissionCalendar} />
 
                 {/* CTA */}
                 <motion.div

@@ -43,7 +43,7 @@ const SkillRow = ({ skill, index }) => {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{ duration: 0.3, delay: index * 0.04 }}
             className="flex items-center group cursor-default py-3 px-2 relative"
         >
             <div className="absolute left-0 inset-y-0 w-0 bg-gradient-to-r from-[#e8a838]/10 to-transparent group-hover:w-full transition-all duration-500 ease-out z-0" />
@@ -73,30 +73,31 @@ const SkillRow = ({ skill, index }) => {
     );
 };
 
-const CategoryTerminal = ({ category, index }) => {
+const SkillCard = ({ category, index }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative group h-full"
+            transition={{ duration: 0.4, delay: index * 0.03 }}
+            className="relative group"
         >
-            {/* Terminal Window Container */}
-            <div className="h-full bg-surface/30 border border-border/50 rounded-xl overflow-hidden backdrop-blur-sm hover:border-[#e8a838]/30 transition-colors duration-500">
-                {/* Terminal Header */}
-                <div className="bg-surface/80 border-b border-border/50 px-4 py-2.5 flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+            {/* Custom Modern Glassmorphism Container */}
+            <div className="bg-surface/30 border border-border/50 rounded-xl overflow-hidden backdrop-blur-sm hover:border-[#e8a838]/30 transition-all duration-500 shadow-lg hover:shadow-[#e8a838]/5">
+                {/* Custom Elegant Header */}
+                <div className="bg-surface/50 border-b border-border/30 px-5 py-3.5 flex items-center justify-between backdrop-blur-sm">
+                    <div className="flex items-center gap-2.5">
+                        <span className="text-[10px] font-mono text-[#e8a838]/60 tracking-wider">✦ 0{index + 1} //</span>
+                        <span className="font-display text-xs md:text-sm font-bold tracking-wider text-text-main uppercase">
+                            {category.category}
+                        </span>
                     </div>
-                    <div className="font-mono text-[11px] text-[#e8a838]/80 tracking-widest uppercase">
-                        SYS::{category.category}
-                    </div>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded border border-[#e8a838]/20 bg-[#e8a838]/5 text-[#e8a838] tracking-widest uppercase">
+                        ACTIVE
+                    </span>
                 </div>
                 
-                {/* Terminal Content / Grid */}
+                {/* Content / Grid */}
                 <div className="p-5">
                     <div className="flex flex-col">
                         {category.skills.map((skill, skillIndex) => (
@@ -106,7 +107,7 @@ const CategoryTerminal = ({ category, index }) => {
                 </div>
             </div>
             
-            {/* Subtle glow behind the terminal window */}
+            {/* Subtle glow behind the card */}
             <div className="absolute -inset-0.5 bg-gradient-to-b from-[#e8a838]/0 to-[#e8a838]/0 group-hover:from-[#e8a838]/5 group-hover:to-[#e8a838]/0 rounded-xl transition-all duration-500 z-[-1] pointer-events-none" />
         </motion.div>
     );
@@ -136,7 +137,7 @@ const Skills = () => {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
+                    transition={{ duration: 0.5 }}
                     className="mb-16"
                 >
                     <div className="flex items-center gap-4 mb-4">
@@ -150,24 +151,22 @@ const Skills = () => {
                     </h2>
                 </motion.div>
 
-                {/* Dashboard Grid Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* Left Column (Wide / Main Focus) */}
-                    <div className="lg:col-span-8 space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <CategoryTerminal category={SKILL_CATEGORIES[0]} index={0} /> {/* Frontend */}
-                            <CategoryTerminal category={SKILL_CATEGORIES[1]} index={1} /> {/* Backend */}
-                        </div>
-                        {/* DevOps spanning full width of left column */}
-                        <div className="w-full">
-                            <CategoryTerminal category={SKILL_CATEGORIES[3]} index={3} /> {/* DevOps */}
-                        </div>
+                {/* Dashboard Masonry Layout with Column Count */}
+                <div className="columns-1 md:columns-2 xl:columns-3 gap-6 space-y-0 [column-fill:_balance]">
+                    <div className="break-inside-avoid mb-6">
+                        <SkillCard category={SKILL_CATEGORIES[0]} index={0} /> {/* Frontend */}
                     </div>
-
-                    {/* Right Column (Sidebar setup) */}
-                    <div className="lg:col-span-4 space-y-6">
-                        <CategoryTerminal category={SKILL_CATEGORIES[2]} index={2} /> {/* Database */}
-                        <CategoryTerminal category={SKILL_CATEGORIES[4]} index={4} /> {/* Design */}
+                    <div className="break-inside-avoid mb-6">
+                        <SkillCard category={SKILL_CATEGORIES[1]} index={1} /> {/* Backend */}
+                    </div>
+                    <div className="break-inside-avoid mb-6">
+                        <SkillCard category={SKILL_CATEGORIES[3]} index={3} /> {/* DevOps & Tools */}
+                    </div>
+                    <div className="break-inside-avoid mb-6">
+                        <SkillCard category={SKILL_CATEGORIES[2]} index={2} /> {/* Database */}
+                    </div>
+                    <div className="break-inside-avoid mb-6">
+                        <SkillCard category={SKILL_CATEGORIES[4]} index={4} /> {/* Design */}
                     </div>
                 </div>
             </div>
