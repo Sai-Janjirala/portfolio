@@ -5,6 +5,7 @@ import About from './sections/About'
 import Skills from './sections/Skills'
 import LeetCode from './sections/LeetCode'
 import Projects from './sections/Projects'
+import Hackathons from './sections/Hackathons'
 import Certifications from './sections/Certifications'
 import Contact from './sections/Contact'
 import CustomCursor from './components/CustomCursor'
@@ -32,6 +33,7 @@ function App() {
             <Skills />
             <LeetCode />
             <Projects />
+            <Hackathons />
             <Certifications />
             <Contact />
           </main>
