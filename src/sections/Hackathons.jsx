@@ -298,17 +298,18 @@ const Hackathons = () => {
         {
             title: "CRAFTATHON '26",
             organizer: "Gandhinagar University & IEEE Computer Society",
-            date: "2026",
+            date: "April 3, 2026",
             location: "Gandhinagar University",
-            description: "Led a development team ('LKcoders') in a high-speed logic sprint, constructing modular code block components from scratch. Coordinated timeline sprints, resolved system merge requests, and successfully demoed the product pitch to corporate panels.",
+            description: "Led a development team ('LKcoders') in a high-speed logic sprint, constructing a responsive web platform from scratch. Coordinated timeline sprints, resolved system merge requests, and successfully demoed the product pitch to corporate panels.",
             highlights: [
                 "Served as Team Leader of 'LKcoders'",
-                "Block-by-block system assembly mapping",
+                "Full-stack MERN dashboard implementation",
                 "Presented software demos to judge panel leaders"
             ],
-            tech: ["Python", "JavaScript", "REST APIs", "System Architecture"],
+            tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Tailwind CSS"],
             role: "Team Leader",
             images: [
+                "/certificates/craftathon_laptop.png",
                 "/certificates/craftathon_2.jpg",
                 "/certificates/craftathon_1.jpg",
                 "/certificates/craftathon_3.jpg",
