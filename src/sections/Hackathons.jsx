@@ -289,24 +289,6 @@ const Hackathons = () => {
 
     const hackathonsList = [
         {
-            title: "Hack.X at HackTheSpring '26",
-            organizer: "Government Engineering College, Sector 28, Gandhinagar",
-            date: "February 20-21, 2026",
-            location: "GEC Gandhinagar",
-            description: "An intensive 36-hour state-level hackathon. Collaborated with a developer team to design and assemble a full-stack academic assistant. Managed layout renders, responsive container elements, and database synchronization logic under tight deadlines.",
-            highlights: [
-                "36-Hour Continuous Dev Cycle",
-                "Built full-stack data loop models",
-                "Pitched functional prototype to evaluation leads"
-            ],
-            tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
-            role: "Developer",
-            images: [
-                "/certificates/hack_the_spring_team.jpg",
-                "/certificates/hack_the_spring.jpg"
-            ]
-        },
-        {
             title: "CRAFTATHON '26",
             organizer: "Gandhinagar University & IEEE Computer Society",
             date: "April 3, 2026",
@@ -327,6 +309,24 @@ const Hackathons = () => {
                 "/certificates/craftathon_3.jpg",
                 "/certificates/craftathon_4.jpg",
                 "/certificates/craftathon_badge.jpg"
+            ]
+        },
+        {
+            title: "Hack.X at HackTheSpring '26",
+            organizer: "Government Engineering College, Sector 28, Gandhinagar",
+            date: "February 20-21, 2026",
+            location: "GEC Gandhinagar",
+            description: "An intensive 36-hour state-level hackathon. Collaborated with a developer team to design and assemble a full-stack academic assistant. Managed layout renders, responsive container elements, and database synchronization logic under tight deadlines.",
+            highlights: [
+                "36-Hour Continuous Dev Cycle",
+                "Built full-stack data loop models",
+                "Pitched functional prototype to evaluation leads"
+            ],
+            tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
+            role: "Developer",
+            images: [
+                "/certificates/hack_the_spring_team.jpg",
+                "/certificates/hack_the_spring.jpg"
             ]
         }
     ];
