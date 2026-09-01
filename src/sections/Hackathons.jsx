@@ -84,7 +84,7 @@ const HoverGallery = ({ images, title, coverPosition }) => {
 
     return (
         <div 
-            className="relative w-full h-[200px] sm:h-[240px] md:h-[260px] overflow-hidden bg-black/40 rounded-t-2xl cursor-pointer"
+            className="relative w-full h-[210px] sm:h-[230px] md:h-[240px] overflow-hidden bg-black/40 rounded-t-2xl cursor-pointer"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={() => {
@@ -115,7 +115,7 @@ const HoverGallery = ({ images, title, coverPosition }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="absolute inset-0 bg-black/90 p-3.5 flex flex-col justify-between z-20 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/90 p-3 flex flex-col justify-between z-20 backdrop-blur-sm"
                     >
                         <div className="text-[9px] font-mono text-primary/80 mb-2 uppercase tracking-widest border-b border-border/35 pb-1 flex justify-between items-center">
                             <span className="flex items-center gap-1"><Eye size={10} /> Hover Grid Gallery</span>
@@ -138,8 +138,34 @@ const HoverGallery = ({ images, title, coverPosition }) => {
                                         <img src={img} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" alt="" />
                                     </motion.div>
                                 ))
-                            ) : images.length > 2 ? (
-                                // 3+ images: 1 large left, up to 4 smaller in 2x2 grid on right
+                            ) : images.length === 3 ? (
+                                // 3 images: 1 large left, 2 stacked right
+                                <>
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.92 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="col-span-7 h-full overflow-hidden rounded border border-border/30 hover:border-primary/50 transition-colors"
+                                        onClick={(e) => handlePhotoClick(e, 0)}
+                                    >
+                                        <img src={images[0]} style={{ objectPosition: coverPosition || 'center' }} className="w-full h-full object-cover hover:scale-103 transition-transform duration-500" alt="" />
+                                    </motion.div>
+                                    <div className="col-span-5 flex flex-col gap-1.5 h-full overflow-hidden">
+                                        {images.slice(1, 3).map((img, idx) => (
+                                            <motion.div
+                                                key={idx}
+                                                initial={{ opacity: 0, scale: 0.92 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ delay: idx * 0.03 }}
+                                                className="flex-1 h-full overflow-hidden rounded border border-border/30 hover:border-primary/50 transition-colors"
+                                                onClick={(e) => handlePhotoClick(e, idx + 1)}
+                                            >
+                                                <img src={img} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" alt="" />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </>
+                            ) : images.length > 3 ? (
+                                // 4+ images: 1 large left, up to 4 smaller in 2x2 grid on right
                                 <>
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0.92 }}
@@ -180,7 +206,7 @@ const HoverGallery = ({ images, title, coverPosition }) => {
 
             {/* Main Badge Overlay */}
             <div className="absolute top-4 left-4 z-10 bg-background/80 backdrop-blur-md border border-border/30 px-3 py-1 rounded-full text-[10px] font-mono font-medium text-text-muted tracking-wider uppercase">
-                {images.length} Photos Included
+                {images.length} {images.length === 1 ? 'Photo' : 'Photos'} Included
             </div>
 
             {/* Lightbox / Modal */}
@@ -214,15 +240,22 @@ const HackathonCard = ({ hack, index }) => {
                         COMPETITION // 0{index + 1}
                     </span>
                 </div>
-                {hack.role === "Team Leader" ? (
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded border border-primary/20 bg-primary/5 text-primary tracking-widest uppercase font-bold shadow-[0_0_6px_rgba(232,168,56,0.2)]">
-                        Team Leader
-                    </span>
-                ) : (
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded border border-border/50 bg-surface/10 text-text-muted tracking-widest uppercase">
-                        Developer
-                    </span>
-                )}
+                <div className="flex items-center gap-2">
+                    {hack.award && (
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded border border-amber-400/30 bg-amber-400/10 text-amber-300 tracking-wider uppercase font-bold shadow-[0_0_6px_rgba(251,191,36,0.2)]">
+                            🏆 {hack.award}
+                        </span>
+                    )}
+                    {hack.role === "Team Leader" ? (
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded border border-primary/20 bg-primary/5 text-primary tracking-widest uppercase font-bold shadow-[0_0_6px_rgba(232,168,56,0.2)]">
+                            Team Leader
+                        </span>
+                    ) : (
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded border border-border/50 bg-surface/10 text-text-muted tracking-widest uppercase">
+                            Developer
+                        </span>
+                    )}
+                </div>
             </div>
 
             {/* Photo Hover Gallery Header */}
@@ -289,22 +322,45 @@ const Hackathons = () => {
 
     const hackathonsList = [
         {
+            title: "Hack-Aarambh 2026",
+            award: "2nd Runner-Up",
+            organizer: "Swarrnim Startup & Innovation University",
+            date: "July 10, 2026",
+            location: "SSIU, Gandhinagar",
+            coverPosition: "center 20%",
+            description: "Served as Team Leader, engineering 'Shruviq'—an AI customer experience platform that converts multi-modal text and voice feedback into actionable business insights. Architected the analytics dashboard, integrated Groq LLMs with Whisper speech pipelines, and pitched to judges to win 2nd Runner-Up.",
+            highlights: [
+                "Awarded 2nd Runner-Up across competitive tracks",
+                "Served as Team Leader & Lead Full Stack Architect",
+                "Built AI feedback pipelines with Groq, Llama 3.3 & Whisper",
+                "Pitched live prototype to jury leaders"
+            ],
+            tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "Groq", "Whisper", "Llama 3.3"],
+            role: "Team Leader",
+            images: [
+                "/certificates/hack_aarambh_1.jpg",
+                "/certificates/hack_aarambh_2.jpg",
+                "/certificates/hack_aarambh_cert.jpg"
+            ]
+        },
+        {
             title: "CRAFTATHON '26",
+            award: "Finalist",
             organizer: "Gandhinagar University & IEEE Computer Society",
             date: "April 3, 2026",
-            coverPosition: "center 5%",
             location: "Gandhinagar University",
-            description: "Led a development team ('LKcoders') in a high-speed logic sprint, constructing a responsive web platform from scratch. Coordinated timeline sprints, resolved system merge requests, and successfully demoed the product pitch to corporate panels.",
+            coverPosition: "center 20%",
+            description: "Led development team 'LKcoders' to build 'Academizer'—an AI academic management platform reducing teacher administrative workload. Constructed student record analytics, attendance tracking, AI-powered insights, and automated PDF reports.",
             highlights: [
+                "Selected as Competition Finalist",
                 "Served as Team Leader of 'LKcoders'",
-                "Full-stack MERN dashboard implementation",
-                "Presented software demos to judge panel leaders"
+                "Full-stack MERN & AI academic platform",
+                "Demoed functional prototype to corporate judge panels"
             ],
-            tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Tailwind CSS"],
+            tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Tailwind CSS", "SQL"],
             role: "Team Leader",
             images: [
                 "/certificates/craftathon_2.jpg",
-                "/certificates/craftathon_laptop.png",
                 "/certificates/craftathon_1.jpg",
                 "/certificates/craftathon_3.jpg",
                 "/certificates/craftathon_4.jpg",
@@ -316,6 +372,7 @@ const Hackathons = () => {
             organizer: "Government Engineering College, Sector 28, Gandhinagar",
             date: "February 20-21, 2026",
             location: "GEC Gandhinagar",
+            coverPosition: "center",
             description: "An intensive 36-hour state-level hackathon. Collaborated with a developer team to design and assemble a full-stack academic assistant. Managed layout renders, responsive container elements, and database synchronization logic under tight deadlines.",
             highlights: [
                 "36-Hour Continuous Dev Cycle",
@@ -325,8 +382,8 @@ const Hackathons = () => {
             tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
             role: "Developer",
             images: [
-                "/certificates/hack_the_spring_team.jpg",
-                "/certificates/hack_the_spring.jpg"
+                "/certificates/hack_the_spring.jpg",
+                "/certificates/hack_the_spring_team.jpg"
             ]
         }
     ];
@@ -364,7 +421,7 @@ const Hackathons = () => {
                 </motion.div>
 
                 {/* Grid Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     {hackathonsList.map((hack, idx) => (
                         <HackathonCard key={idx} hack={hack} index={idx} />
                     ))}
