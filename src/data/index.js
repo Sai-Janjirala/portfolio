@@ -1,5 +1,8 @@
 import { Github, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { SiLeetcode } from 'react-icons/si';
+import shruviqImg from '../assets/projects/shruviq.jpg';
+import academizerImg from '../assets/projects/academizer.jpg';
+import ecommerceImg from '../assets/projects/ecommerce.jpg';
 
 export const SKILL_CATEGORIES = [
     {
@@ -72,7 +75,7 @@ export const PROJECTS = [
         tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "Groq", "Whisper", "Llama 3.3"],
         link: "",
         github: "https://github.com/Sai-Janjirala",
-        image: "/projects/shruviq.jpg"
+        image: shruviqImg
     },
     {
         id: 2,
@@ -81,7 +84,7 @@ export const PROJECTS = [
         tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "SQL"],
         link: "",
         github: "https://github.com/Sai-Janjirala",
-        image: "/projects/academizer.jpg"
+        image: academizerImg
     },
     {
         id: 3,
@@ -90,7 +93,7 @@ export const PROJECTS = [
         tech: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "REST APIs"],
         link: "",
         github: "https://github.com/Sai-Janjirala",
-        image: "/projects/ecommerce.jpg"
+        image: ecommerceImg
     },
     {
         id: 4,
