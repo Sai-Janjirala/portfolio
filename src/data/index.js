@@ -72,7 +72,7 @@ export const PROJECTS = [
         tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "Groq", "Whisper", "Llama 3.3"],
         link: "",
         github: "https://github.com/Sai-Janjirala",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"
+        image: "/projects/shruviq.jpg"
     },
     {
         id: 2,
@@ -81,7 +81,7 @@ export const PROJECTS = [
         tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "SQL"],
         link: "",
         github: "https://github.com/Sai-Janjirala",
-        image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop"
+        image: "/projects/academizer.jpg"
     },
     {
         id: 3,
@@ -90,7 +90,7 @@ export const PROJECTS = [
         tech: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "REST APIs"],
         link: "",
         github: "https://github.com/Sai-Janjirala",
-        image: "https://images.unsplash.com/photo-1556742049-0a67daf4005a?q=80&w=1200&auto=format&fit=crop"
+        image: "/projects/ecommerce.jpg"
     },
     {
         id: 4,

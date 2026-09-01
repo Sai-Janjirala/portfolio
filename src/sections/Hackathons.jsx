@@ -382,8 +382,7 @@ const Hackathons = () => {
             tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
             role: "Developer",
             images: [
-                "/certificates/hack_the_spring.jpg",
-                "/certificates/hack_the_spring_team.jpg"
+                "/certificates/hack_the_spring.jpg"
             ]
         }
     ];
