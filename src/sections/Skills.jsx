@@ -4,7 +4,7 @@ import { SKILL_CATEGORIES } from '../data';
 
 const TechMarquee = () => {
     const marqueeSkills = [
-        "REACT", "NODE.JS", "TYPESCRIPT", "NEXT.JS", "MONGODB", "TAILWIND CSS", "EXPRESS", "C++", "FIGMA"
+        "REACT", "NODE.JS", "TYPESCRIPT", "NEXT.JS", "MONGODB", "SQL", "TAILWIND CSS", "EXPRESS", "PYTHON", "C++"
     ];
     
     return (

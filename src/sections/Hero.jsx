@@ -318,8 +318,9 @@ const UI = {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => {
                             const link = document.createElement('a');
-                            link.href = "/resume.png";
-                            link.download = "Sai_Janjirala_Resume.png";
+                            link.href = "/resume.pdf";
+                            link.download = "Sai_Janjirala_Resume.pdf";
+                            link.target = "_blank";
                             link.click();
                         }}
                         className="px-8 py-3 bg-surface border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300"
