@@ -97,15 +97,6 @@ export const PROJECTS = [
     },
     {
         id: 4,
-        title: "MERN Service Booking Platform",
-        description: "Freelance production client application for service booking workflows, real-time availability, secure user authentication, database operations, and admin management.",
-        tech: ["MongoDB", "Express.js", "React.js", "Node.js", "SQL", "REST APIs"],
-        link: "",
-        github: "https://github.com/Sai-Janjirala",
-        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
-    },
-    {
-        id: 5,
         title: "Marvel Studios Clone",
         description: "A custom Marvel Studios website featuring dynamic layouts and interactive elements.",
         tech: ["HTML", "CSS", "JavaScript"],
@@ -114,19 +105,54 @@ export const PROJECTS = [
         image: "https://i.pinimg.com/1200x/5a/80/a6/5a80a6086e028cedf49061152a9792a3.jpg"
     },
     {
-        id: 6,
+        id: 5,
         title: "Snake Game",
         description: "A classic snake game with modern UI and smooth gameplay.",
-        tech: ["HTML", "CSS", "javascript"],
+        tech: ["HTML", "CSS", "JavaScript"],
         link: "https://sai-snakegame.netlify.app/",
         github: "https://github.com/Sai-Janjirala/javascript/tree/Main/snakegame",
         image: "https://i.pinimg.com/736x/a7/d1/8c/a7d18ca3395aefdc09f1e6acd88bfce7.jpg"
+    },
+    {
+        id: 6,
+        title: "Web Gallery",
+        description: "A custom web gallery featuring dynamic photo and video media elements.",
+        tech: ["React.js", "Tailwind CSS"],
+        link: "https://web-galleryy.netlify.app/",
+        github: "https://github.com/Sai-Janjirala/react-js/tree/Main/gallery",
+        image: "https://i.pinimg.com/736x/66/bf/ea/66bfeaa804739e6172081c6e59c631cd.jpg"
+    },
+    {
+        id: 7,
+        title: "Nike Store",
+        description: "A custom Nike store website featuring dynamic layouts and interactive elements.",
+        tech: ["React.js", "Tailwind CSS"],
+        link: "https://nikee-storee.netlify.app/",
+        github: "https://github.com/Sai-Janjirala/react-js/tree/Main/project_1",
+        image: "https://i.pinimg.com/1200x/15/36/a8/1536a86a6be93707cb8a103dfad53a4f.jpg"
+    },
+    {
+        id: 8,
+        title: "Notes App",
+        description: "A custom notes application featuring dynamic layouts, search, and intuitive note management.",
+        tech: ["React.js", "Tailwind CSS"],
+        link: "https://notesss-app.netlify.app/",
+        github: "https://github.com/Sai-Janjirala/react-js/tree/Main/notes-app",
+        image: "https://i.pinimg.com/736x/de/79/1b/de791bd00cb1aec78474674f084abc1d.jpg"
     }
 ];
 
 export const CERTIFICATIONS = [
     {
         id: 1,
+        title: "ICETAI 2026 – Research Paper Presentation",
+        issuer: "Rai University, Ahmedabad (Certificate No: ICETAI/2026/063)",
+        date: "July 30-31, 2026",
+        description: "Presented research paper titled 'MedSentry: Lightweight XAI-Powered Intrusion Detection System for Internet of Medical Things (IoMT)' at the International Conference on Emerging Trends in AI–ML & Innovation.",
+        image: "/certificates/icetai_cert.jpg"
+    },
+    {
+        id: 2,
         title: "Solutions Architecture Job Simulation",
         issuer: "AWS & Forage",
         date: "Feb 2026",
@@ -134,20 +160,20 @@ export const CERTIFICATIONS = [
         image: "/certificates/aws_forage.png"
     },
     {
-        id: 2,
+        id: 3,
+        title: "HackTheSpring '26 Participation",
+        issuer: "Government Engineering College (GEC), Gandhinagar",
+        date: "Feb 2026",
+        description: "Participated in the state-level 36-hour HackTheSpring '26 hackathon at GEC Gandhinagar, constructing full-stack data loop models.",
+        image: "/certificates/hack_the_spring.jpg"
+    },
+    {
+        id: 4,
         title: "Odoo x Adani Hackathon '26",
         issuer: "Adani University & Unstop",
         date: "2026",
         description: "Contributed to building real-world software solutions during the Odoo x Adani Hackathon. Successfully navigated complex problem statements and pitched a functional application.",
         image: "/certificates/adani_hackathon.png"
-    },
-    {
-        id: 3,
-        title: "ICETAI 2026 Certificate of Participation",
-        issuer: "ICETAI 2026 Conference",
-        date: "2026",
-        description: "Earned Certificate of Participation as a core team member of the MedSentry research project presented at ICETAI 2026.",
-        image: "/certificates/hack_the_spring.jpg"
     }
 ];
 

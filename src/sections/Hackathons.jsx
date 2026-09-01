@@ -366,24 +366,6 @@ const Hackathons = () => {
                 "/certificates/craftathon_4.jpg",
                 "/certificates/craftathon_badge.jpg"
             ]
-        },
-        {
-            title: "Hack.X at HackTheSpring '26",
-            organizer: "Government Engineering College, Sector 28, Gandhinagar",
-            date: "February 20-21, 2026",
-            location: "GEC Gandhinagar",
-            coverPosition: "center",
-            description: "An intensive 36-hour state-level hackathon. Collaborated with a developer team to design and assemble a full-stack academic assistant. Managed layout renders, responsive container elements, and database synchronization logic under tight deadlines.",
-            highlights: [
-                "36-Hour Continuous Dev Cycle",
-                "Built full-stack data loop models",
-                "Pitched functional prototype to evaluation leads"
-            ],
-            tech: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
-            role: "Developer",
-            images: [
-                "/certificates/hack_the_spring.jpg"
-            ]
         }
     ];
 
@@ -420,7 +402,7 @@ const Hackathons = () => {
                 </motion.div>
 
                 {/* Grid Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     {hackathonsList.map((hack, idx) => (
                         <HackathonCard key={idx} hack={hack} index={idx} />
                     ))}
