@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Download, Code2, Cpu, Database } from "lucide-react";
+import { ArrowDown, ExternalLink, Code2, Cpu, Database } from "lucide-react";
 import { SOCIALS } from "../data";
 
 const Hero = () => {
@@ -313,21 +313,17 @@ const UI = {
                         <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity" />
                     </motion.button>
                     
-                    <motion.button
+                    <motion.a
+                        href="/resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(232,168,56,0.1)" }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => {
-                            const link = document.createElement('a');
-                            link.href = "/resume.pdf";
-                            link.download = "Sai_Janjirala_Resume.pdf";
-                            link.target = "_blank";
-                            link.click();
-                        }}
                         className="px-8 py-3 bg-surface border border-primary/30 hover:border-primary/60 rounded-full text-text-main font-heading text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300"
                     >
-                        <span>Resume</span>
-                        <Download size={16} />
-                    </motion.button>
+                        <span>View Resume</span>
+                        <ExternalLink size={16} />
+                    </motion.a>
 
                     <motion.button
                         whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(232,168,56,0.1)" }}
